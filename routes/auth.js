@@ -22,11 +22,16 @@ router.post('/register', async (req, res, next) => {
 
   // 1. 驗證輸入的資料是否正確
   const { error } = signupSchema.validate(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  if (error) return res.status(200)
+    .json({
+      retCode: 0,
+      retMeg: error.details[0].message,
+      retData: {}
+    })
 
   // 2. email 是否存在
   const emailExist = await User.findOne({ email: req.body.email });
-  if (emailExist) return res.status(400)
+  if (emailExist) return res.status(200)
     .json({
       retCode: 0,
       retMeg: 'Email already exists',
@@ -47,9 +52,14 @@ router.post('/register', async (req, res, next) => {
   try {
     const savedUser = await user.save()
     // console.log(savedUser)
+    res.status(200)
+      .json({
+        retCode: 1,
+        retMeg: '註冊成功',
+      })
     res.json({ user: user_.id })
   } catch (err) {
-    res.status(400)
+    res.status(200)
       .json({
         retCode: 0,
         retMeg: err,
@@ -61,10 +71,10 @@ router.post('/register', async (req, res, next) => {
 // 登入
 router.post('/login', async (req, res, next) => {
   const { error } = loginSchema.validate(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  if (error) return res.status(200).send(error.details[0].message)
 
   const user = await User.findOne({ email: req.body.email })
-  if (!user) return res.status(400)
+  if (!user) return res.status(200)
     .json({
       retCode: 0,
       retMeg: 'Email is not found',
@@ -72,7 +82,7 @@ router.post('/login', async (req, res, next) => {
     })
 
   const validPass = await bcrypt.compare(req.body.password, user.password)
-  if (!validPass) return res.status(400)
+  if (!validPass) return res.status(200)
     .json({
       retCode: 0,
       retMeg: 'Invalid password',
@@ -80,14 +90,14 @@ router.post('/login', async (req, res, next) => {
     })
 
   // 使用 jwt 建立 token ( id + richard_secret)
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '1h' })
   res.header('Authorization', token)
 
   res.json({
     retCode: 1,
     retMeg: '登入成功',
     retData: {
-      "token": token
+      token
     }
   })
 });
