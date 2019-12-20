@@ -16,16 +16,16 @@ dotenv.config()
 app.use(express.static(path.join(__dirname, "client/build")));
 
 // db
-var mongoose = require('mongoose')
-MONGODB_URL = process.env.DB_URL || 'mongodb://dbRichard:db0207@ds259089.mlab.com:59089/heroku_r6fjp5rj'
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+// var mongoose = require('mongoose')
+// MONGODB_URL = process.env.DB_URL || 'mongodb://dbRichard:db0207@ds259089.mlab.com:59089/heroku_r6fjp5rj'
+// mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log('db connect')
-  // we're connected!
-});
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function () {
+//   console.log('db connect')
+//   // we're connected!
+// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
