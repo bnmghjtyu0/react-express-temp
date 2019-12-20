@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 // db
 var mongoose = require('mongoose')
-MONGODB_URL = process.env.DB_URL
+MONGODB_URL = process.env.DB_URL || 'mongodb://dbRichard:db0207@ds259089.mlab.com:59089/heroku_r6fjp5rj'
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
 var db = mongoose.connection;
