@@ -8,9 +8,9 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var app = express();
 var verify = require('./routes/verifyToken');
-var dotenv = require('dotenv')
+// var dotenv = require('dotenv')
 
-dotenv.config()
+// dotenv.config()
 
 
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -36,9 +36,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // app.use('/', indexRouter);
-app.use("/backend/users", authRouter);
+// app.use("/backend/users", authRouter);
 // 需要登入才能取得資料
-app.use("/backend/", verify, indexRouter);
+// app.use("/backend/", verify, indexRouter);
+app.use("/backend/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
