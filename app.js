@@ -39,7 +39,10 @@ app.use(cookieParser());
 // app.use("/backend/users", authRouter);
 // 需要登入才能取得資料
 // app.use("/backend/", verify, indexRouter);
-app.use("/backend/", indexRouter);
+// app.use("/backend/", indexRouter);
+app.get('/', function (req, res, next) {
+  res.send('123')
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
