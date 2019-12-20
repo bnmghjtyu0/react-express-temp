@@ -81,7 +81,7 @@ router.post('/login', async (req, res, next) => {
 
   // 使用 jwt 建立 token ( id + richard_secret)
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-  res.header('token', token)
+  res.header('Authorization', token)
 
   res.json({
     retCode: 1,
