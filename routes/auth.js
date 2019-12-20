@@ -1,25 +1,95 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/User')
+var bcrypt = require('bcryptjs')
+var jwt = require('jsonwebtoken')
 
+// 驗證輸入的資料是否正確
+const Joi = require('@hapi/joi');
 
-/* GET users listing. */
+const signupSchema = Joi.object({
+  name: Joi.string().min(6).required(),
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required()
+});
+const loginSchema = Joi.object({
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required()
+});
+
+// 註冊
 router.post('/register', async (req, res, next) => {
+
+  // 1. 驗證輸入的資料是否正確
+  const { error } = signupSchema.validate(req.body)
+  if (error) return res.status(400).send(error.details[0].message)
+
+  // 2. email 是否存在
+  const emailExist = await User.findOne({ email: req.body.email });
+  if (emailExist) return res.status(400)
+    .json({
+      retCode: 0,
+      retMeg: 'Email already exists',
+      retData: {}
+    })
+
+  // 3. password 加密
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+
   const user = new User({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: hashedPassword
 
   })
   try {
-    const saveUser = await user.save()
-    res.send(savedUser)
+    const savedUser = await user.save()
+    // console.log(savedUser)
+    res.json({ user: user_.id })
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400)
+      .json({
+        retCode: 0,
+        retMeg: err,
+        retData: {}
+      })
   }
 });
-router.post('/login', function (req, res, next) {
-  res.send('login');
+
+// 登入
+router.post('/login', async (req, res, next) => {
+  const { error } = loginSchema.validate(req.body)
+  if (error) return res.status(400).send(error.details[0].message)
+
+  const user = await User.findOne({ email: req.body.email })
+  if (!user) return res.status(400)
+    .json({
+      retCode: 0,
+      retMeg: 'Email is not found',
+      retData: {}
+    })
+
+  const validPass = await bcrypt.compare(req.body.password, user.password)
+  if (!validPass) return res.status(400)
+    .json({
+      retCode: 0,
+      retMeg: 'Invalid password',
+      retData: {}
+    })
+
+  // 使用 jwt 建立 token ( id + richard_secret)
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
+  res.header('token', token)
+
+  res.json({
+    retCode: 1,
+    retMeg: '登入成功',
+    retData: {
+      "token": token
+    }
+  })
 });
 
 module.exports = router;

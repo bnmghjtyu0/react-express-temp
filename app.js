@@ -7,28 +7,28 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var app = express();
+var verify = require('./routes/verifyToken');
+var dotenv = require('dotenv')
+
+dotenv.config()
+
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
-
-// connect DB
+// db
 var mongoose = require('mongoose')
-
-MONGODB_URL = "mongodb://dbRichard:db0207@ds259089.mlab.com:59089/heroku_r6fjp5rj"
-MONGODB_URL2 = "mongodb://dbRichard:db0207@ds139427.mlab.com:39427/heroku_dvlbzt1h"
-mongoose.connect(MONGODB_URL2, { useNewUrlParser: true })
+MONGODB_URL = process.env.DB_URL
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  console.log('1231')
+  console.log('db connect')
   // we're connected!
 });
 
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -36,8 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // app.use('/', indexRouter);
-app.use("/api/", indexRouter);
-app.use("/api/users", authRouter);
+app.use("/backend/users", authRouter);
+// 需要登入才能取得資料
+app.use("/backend/", verify, indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
