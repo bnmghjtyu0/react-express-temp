@@ -40,7 +40,7 @@ app.use(cookieParser());
 // 需要登入才能取得資料
 // app.use("/backend/", verify, indexRouter);
 // app.use("/backend/", indexRouter);
-app.get('/', function (req, res, next) {
+app.get('/demo', function (req, res, next) {
   res.send('123')
 })
 
