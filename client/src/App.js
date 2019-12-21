@@ -14,7 +14,6 @@ const NoMatch = () => {
 function App() {
   return (
     <Switch>
-      <Route exact path="/login" children={<Login />} />
       <Route
         exact
         path="/"
@@ -26,6 +25,7 @@ function App() {
           )
         }
       />
+      <Route exact path="/login" component={Login} />
       <PrivateRoute path="/home" component={Home} />
       <PrivateRoute path="/about" component={About} />
       <Route path="*">

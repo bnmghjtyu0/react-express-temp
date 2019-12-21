@@ -25,7 +25,7 @@ router.get('/demo', function (req, res, next) {
 
   // console.log(url)
 
-  res.status(200).json({ title: 'Welcome use express + react platform.' });
+  res.status(200).json({ title: 'Welcome to React + Express platform.' });
 });
 /* GET home page. */
 // router.get('/demo', function (req, res, next) {
