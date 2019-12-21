@@ -2,9 +2,13 @@
 
 const auth = "AUTH";
 
-export const authStatus = toggle => {
+export const actLogin = () => {
   return {
-    type: "AUTH",
-    toggle
+    type: "LOGIN"
+  };
+};
+export const actLogout = () => {
+  return {
+    type: "LOGOUT"
   };
 };

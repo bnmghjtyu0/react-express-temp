@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import withLayout from "../../container/withLayout";
 import logo from "../../logo.svg";
 import server from "../../server/index";
 
@@ -17,7 +18,9 @@ const fakeAuth = {
 
 const Home = () => {
   const [data, setData] = React.useState({});
-  let { from } = !localStorage.getItem("token") || { from: { pathname: "/login" } };
+  let { from } = !localStorage.getItem("token") || {
+    from: { pathname: "/login" }
+  };
   let history = useHistory();
   React.useEffect(() => {
     _apiDemo();
@@ -33,20 +36,8 @@ const Home = () => {
       <img src={logo} className="App-logo" alt="logo" />
       <div>
         <p>{data.title}</p>
-        <div>
-          <button
-            onClick={() => {
-              localStorage.removeItem("token");
-              fakeAuth.authenticate(() => {
-                history.replace(from);
-              });
-            }}
-          >
-            logout
-          </button>
-        </div>
       </div>
     </header>
   );
 };
-export default Home;
+export default withLayout(Home);
