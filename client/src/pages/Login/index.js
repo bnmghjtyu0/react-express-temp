@@ -1,6 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+
 import "./login.scss";
 import { actLogin } from "../../redux/actions";
 import server from "../../server/index";
@@ -20,7 +23,6 @@ const Login = props => {
     const res = await server._apiAuth("users/register", formRegister);
     console.log("sign", res);
   };
-
   const _apiLogin = async () => {
     const res = await server._apiAuth("users/login", form);
     console.log("signin", res);
@@ -33,6 +35,12 @@ const Login = props => {
     }
   };
 
+  const responseFacebook = response => {
+    console.log(response);
+  };
+  const responseGoogle = response => {
+    console.log(response);
+  };
   const sendFormSignUp = async e => {
     e.preventDefault();
     _apiSignUp();
@@ -44,10 +52,10 @@ const Login = props => {
   };
   return (
     <div className="App-header">
-    <h2 className="login-title">後台系統</h2>
+      <h2 className="login-title">後台系統</h2>
       <div className="login">
         <div className="left">
-        <h4>註冊</h4>
+          <h4>註冊</h4>
           <form onSubmit={sendFormSignUp}>
             <div className="form-group mb-2">
               <div className="mr-2">
@@ -97,7 +105,7 @@ const Login = props => {
           </form>
         </div>
         <div className="right">
-        <h4>登入</h4>
+          <h4>登入</h4>
           <form onSubmit={sendFormSignIn}>
             <div className="form-group">
               <input
@@ -126,6 +134,31 @@ const Login = props => {
             </button>
           </form>
         </div>
+      </div>
+      <div className="form-inline mt-3">
+        <GoogleLogin
+          clientId="32250892194-hpgfm9jm2d7mjkho5cuvoolaumqgo7ji.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+          className="mr-3"
+        />
+        <FacebookLogin
+          appId="604731250273491"
+          autoLoad={false}
+          fields="name,email,picture"
+          cssClass="my-facebook-button-class"
+          callback={responseFacebook}
+          render={renderProps => (
+            <button
+              onClick={renderProps.onClick}
+              className="btn btn-sm btn-primary"
+            >
+              登入 facebook
+            </button>
+          )}
+        />
       </div>
     </div>
   );
