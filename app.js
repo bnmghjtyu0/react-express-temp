@@ -6,6 +6,8 @@ var logger = require("morgan");
 
 var HomeRouter = require("./routes/route/home");
 var authRouter = require("./routes/user/index");
+var productRouter = require("./routes/route/products");
+
 var app = express();
 var verify = require("./routes/verifyToken");
 var dotenv = require("dotenv");
@@ -41,6 +43,7 @@ app.use(cookieParser());
 app.use("/backend/users", authRouter);
 // 需要登入才能取得資料
 app.use("/backend/", verify, HomeRouter);
+app.use("/backend/product", verify, productRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8507,7 +8507,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -8732,6 +8732,26 @@ react-error-overlay@^6.0.4:
   version "6.0.4"
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.4.tgz#0d165d6d27488e660bc08e57bdabaad741366f7a"
   integrity sha1-DRZdbSdIjmYLwI5Xvauq10E2b3o=
+
+react-facebook-login@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npm.taobao.org/react-facebook-login/download/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+  integrity sha1-AFEhI2pqwN7gIJmXb7GjJl+dYz4=
+
+react-google-login@^5.0.7:
+  version "5.0.7"
+  resolved "https://registry.npm.taobao.org/react-google-login/download/react-google-login-5.0.7.tgz#6f4f117a234c6eca3132773ad051d1a36c95204d"
+  integrity sha1-b08ReiNMbsoxMnc60FHRo2yVIE0=
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.6.0"
+
+react-icons@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.npm.taobao.org/react-icons/download/react-icons-3.8.0.tgz#229de5904809696c9f46932bd9b6126b2522866e"
+  integrity sha1-Ip3lkEgJaWyfRpMr2bYSayUihm4=
+  dependencies:
+    camelcase "^5.0.0"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.12.0"
